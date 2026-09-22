@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>PantryChef | Cook What You Have</title>
+
+<style>
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #faf9f5;
+    color: #20251f;
+}
+
+/* NAVIGATION */
+
+nav {
+    height: 75px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 7%;
+    border-bottom: 1px solid #eee;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.logo span {
+    color: #5b9d54;
+}
+
+.nav-button {
+    background: #5b9d54;
+    color: white;
+    border: none;
+    padding: 11px 20px;
+    border-radius: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.nav-button:hover {
+    background: #477e42;
+}
+
+
+/* HERO */
+
+.hero {
+    min-height: 470px;
+    padding: 80px 20px;
+    text-align: center;
+    background:
+        radial-gradient(circle at 15% 20%, #e8f3df 0, transparent 25%),
+        radial-gradient(circle at 85% 80%, #f4e9cf 0, transparent 25%),
+        #faf9f5;
+}
+
+.hero-badge {
+    display: inline-block;
+    background: #e7f2e3;
+    color: #477e42;
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: clamp(42px, 7vw, 72px);
+    line-height: 1.05;
+    max-width: 850px;
+    margin: auto;
+    letter-spacing: -2px;
+}
+
+.hero h1 span {
+    color: #5b9d54;
+}
+
+.hero p {
+    max-width: 650px;
+    margin: 25px auto;
+    font-size: 19px;
+    line-height: 1.6;
+    color: #666;
+}
+
+
+/* MAIN */
+
+.container {
+    max-width: 1050px;
+    margin: auto;
+    padding: 0 20px 70px;
+}
+
+
+/* UPLOAD */
+
+.upload-card {
+    background: white;
+    border-radius: 25px;
+    padding: 50px;
+    text-align: center;
+    box-shadow: 0 15px 45px rgba(0,0,0,0.07);
+    border: 1px solid #eee;
+    margin-top: -50px;
+    position: relative;
+}
+
+.upload-icon {
+    width: 75px;
+    height: 75px;
+    margin: auto auto 20px;
+    border-radius: 20px;
+    background: #e8f3df;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 36px;
+}
+
+.upload-card h2 {
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+
+.upload-card p {
+    color: #777;
+    margin-bottom: 25px;
+}
+
+.upload-button {
+    display: inline-block;
+    background: #5b9d54;
+    color: white;
+    padding: 15px 28px;
+    border-radius: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.upload-button:hover {
+    transform: translateY(-2px);
+    background: #477e42;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+
+/* PREVIEW */
+
+.preview {
+    display: none;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.preview img {
+    width: 100%;
+    max-width: 500px;
+    max-height: 350px;
+    object-fit: cover;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+}
+
+
+/* SECTIONS */
+
+.section {
+    display: none;
+    margin-top: 30px;
+    background: white;
+    padding: 30px;
+    border-radius: 22px;
+    box-shadow: 0 10px 35px rgba(0,0,0,0.05);
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.section-title h2 {
+    font-size: 25px;
+}
+
+
+/* INGREDIENTS */
+
+.ingredients {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.ingredient {
+    background: #edf6e9;
+    color: #315e2d;
+    padding: 10px 15px;
+    border-radius: 30px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: 600;
+}
+
+.remove {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.remove:hover {
+    opacity: 1;
+}
+
+.add-area {
+    display: flex;
+    gap: 10px;
+    margin-top: 25px;
+}
+
+.add-area input {
+    flex: 1;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 15px;
+}
+
+.add-area button {
+    background: #222;
+    color: white;
+    border: none;
+    padding: 0 20px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.recipe-button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 16px;
+    border: none;
+    border-radius: 12px;
+    background: #5b9d54;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.recipe-button:hover {
+    background: #477e42;
+}
+
+
+/* RECIPES */
+
+.recipes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+.recipe {
+    border: 1px solid #eee;
+    border-radius: 18px;
+    overflow: hidden;
+    background: white;
+    transition: 0.2s;
+}
+
+.recipe:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+.recipe-image {
+    height: 150px;
+    background: linear-gradient(135deg, #e8f3df, #f5e8cb);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 65px;
+}
+
+.recipe-content {
+    padding: 20px;
+}
+
+.recipe h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.recipe p {
+    color: #666;
+    line-height: 1.5;
+}
+
+.time {
+    margin-top: 15px;
+    color: #5b9d54;
+    font-weight: bold;
+}
+
+
+/* FOOTER */
+
+footer {
+    background: #20251f;
+    color: #aaa;
+    text-align: center;
+    padding: 35px 20px;
+}
+
+.footer-logo {
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+
+/* MOBILE */
+
+@media(max-width: 600px) {
+
+    nav {
+        padding: 0 20px;
+    }
+
+    .hero {
+        padding: 60px 20px 100px;
+    }
+
+    .hero h1 {
+        letter-spacing: -1px;
+    }
+
+    .upload-card {
+        padding: 35px 20px;
+        margin-top: -60px;
+    }
+
+    .section {
+        padding: 22px;
+    }
+
+    .add-area {
+        flex-direction: column;
+    }
+
+    .add-area button {
+        height: 45px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- NAVIGATION -->
+
+<nav>
+
+    <div class="logo">
+        🥕 Pantry<span>Chef</span>
+    </div>
+
+    <button
+        class="nav-button"
+        onclick="scrollToUpload()">
+
+        Try It
+
+    </button>
+
+</nav>
+
+
+<!-- HERO -->
+
+<section class="hero">
+
+    <div class="hero-badge">
+        🍳 Your kitchen, your recipes
+    </div>
+
+    <h1>
+        Cook something great
+        <span>with what you already have.</span>
+    </h1>
+
+    <p>
+        Take a picture of your fridge or pantry.
+        PantryChef helps turn the ingredients you already
+        have into delicious meal ideas.
+    </p>
+
+</section>
+
+
+<main class="container">
+
+
+<!-- UPLOAD -->
+
+<label
+    class="upload-card"
+    id="uploadArea">
+
+    <div class="upload-icon">
+        📸
+    </div>
+
+    <h2>
+        What's in your kitchen?
+    </h2>
+
+    <p>
+        Upload a photo of your fridge, freezer, or pantry.
+    </p>
+
+    <span class="upload-button">
+        Choose a Photo
+    </span>
+
+    <input
+        type="file"
+        id="photoInput"
+        accept="image/*">
+
+</label>
+
+
+<!-- PREVIEW -->
+
+<div
+    class="preview"
+    id="preview">
+
+    <h3>
+        Your kitchen
+    </h3>
+
+    <br>
+
+    <img id="previewImage">
+
+</div>
+
+
+<!-- INGREDIENTS -->
+
+<div
+    class="section"
+    id="ingredientSection">
+
+    <div class="section-title">
+
+        <h2>
+            🥕 Ingredients
+        </h2>
+
+    </div>
+
+
+    <div
+        class="ingredients"
+        id="ingredients">
+    </div>
+
+
+    <div class="add-area">
+
+        <input
+            type="text"
+            id="newIngredient"
+            placeholder="Add an ingredient...">
+
+        <button
+            onclick="addIngredient()">
+
+            Add
+
+        </button>
+
+    </div>
+
+
+    <button
+        class="recipe-button"
+        onclick="findRecipes()">
+
+        ✨ Find Recipes
+
+    </button>
+
+</div>
+
+
+<!-- RECIPES -->
+
+<div
+    class="section"
+    id="recipeSection">
+
+    <div class="section-title">
+
+        <h2>
+            🍽️ Recipes For You
+        </h2>
+
+    </div>
+
+
+    <div
+        class="recipes"
+        id="recipes">
+    </div>
+
+</div>
+
+
+</main>
+
+
+<footer>
+
+    <div class="footer-logo">
+        🥕 PantryChef
+    </div>
+
+    <p>
+        Turn what you have into what you crave.
+    </p>
+
+</footer>
+
+
+<script>
+
+
+let ingredients = [
+
+    "Eggs",
+    "Chicken",
+    "Cheese",
+    "Tomatoes",
+    "Milk",
+    "Rice"
+
+];
+
+
+const photoInput =
+    document.getElementById("photoInput");
+
+
+photoInput.addEventListener(
+    "change",
+    function(event) {
+
+        const file =
+            event.target.files[0];
+
+        if (!file) return;
+
+
+        const reader =
+            new FileReader();
+
+
+        reader.onload =
+            function(e) {
+
+                document
+                    .getElementById("previewImage")
+                    .src = e.target.result;
+
+
+                document
+                    .getElementById("preview")
+                    .style.display = "block";
+
+
+                document
+                    .getElementById("ingredientSection")
+                    .style.display = "block";
+
+
+                displayIngredients();
+
+            };
+
+
+        reader.readAsDataURL(file);
+
+    }
+);
+
+
+function displayIngredients() {
+
+    const container =
+        document.getElementById("ingredients");
+
+
+    container.innerHTML = "";
+
+
+    ingredients.forEach(
+        (ingredient, index) => {
+
+            const item =
+                document.createElement("div");
+
+
+            item.className =
+                "ingredient";
+
+
+            item.innerHTML = `
+
+                ${ingredient}
+
+                <span
+                    class="remove"
+                    onclick="removeIngredient(${index})">
+
+                    ×
+
+                </span>
+
+            `;
+
+
+            container.appendChild(item);
+
+        }
+    );
+
+}
+
+
+function removeIngredient(index) {
+
+    ingredients.splice(index, 1);
+
+    displayIngredients();
+
+}
+
+
+function addIngredient() {
+
+    const input =
+        document.getElementById("newIngredient");
+
+
+    const value =
+        input.value.trim();
+
+
+    if (value !== "") {
+
+        ingredients.push(value);
+
+        input.value = "";
+
+        displayIngredients();
+
+    }
+
+}
+
+
+function findRecipes() {
+
+    const recipeSection =
+        document.getElementById("recipeSection");
+
+
+    const recipes =
+        document.getElementById("recipes");
+
+
+    recipeSection.style.display =
+        "block";
+
+
+    recipes.innerHTML = `
+
+        <div class="recipe">
+
+            <div class="recipe-image">
+                🍳
+            </div>
+
+            <div class="recipe-content">
+
+                <h3>
+                    Chicken & Cheese Omelet
+                </h3>
+
+                <p>
+                    Eggs filled with chicken,
+                    cheese, and tomatoes.
+                    A quick and filling meal.
+                </p>
+
+                <div class="time">
+                    ⏱ 15 minutes
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="recipe">
+
+            <div class="recipe-image">
+                🍚
+            </div>
+
+            <div class="recipe-content">
+
+                <h3>
+                    Chicken Tomato Rice Bowl
+                </h3>
+
+                <p>
+                    Warm rice topped with
+                    chicken, tomatoes, and
+                    melted cheese.
+                </p>
+
+                <div class="time">
+                    ⏱ 25 minutes
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="recipe">
+
+            <div class="recipe-image">
+                🍅
+            </div>
+
+            <div class="recipe-content">
+
+                <h3>
+                    Creamy Tomato Rice
+                </h3>
+
+                <p>
+                    Rice cooked with tomatoes,
+                    milk, and cheese for an
+                    easy dinner.
+                </p>
+
+                <div class="time">
+                    ⏱ 20 minutes
+                </div>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    recipeSection.scrollIntoView({
+        behavior: "smooth"
+    });
+
+}
+
+
+function scrollToUpload() {
+
+    document
+        .getElementById("uploadArea")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+</script>
+
+
+</body>
+</html>
